@@ -1,0 +1,3 @@
+#ignore these file while commiting or updating project from GIT
+.metadata
+RemoteSystemsTempFiles
