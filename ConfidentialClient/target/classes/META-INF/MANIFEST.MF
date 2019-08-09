@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: keycloak-confidential
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: cats
+Implementation-Vendor-Id: com.keycloak.confidential
+Build-Jdk: 1.8.0_201
+Implementation-URL: http://projects.spring.io/spring-boot/keycloak-con
+ fidential/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My landing page 2</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+function getAjaxCall()
+{
+	alert("inside getAjaxCall");
+	$.ajax(
+			{
+			url: "/keycloak/getAjaxCallData",
+			success: function(result){
+				alert("resultdata>>>>>>>>>"+result);
+			}
+			});
+}
+</script>
+
+<div class="card">
+    <h5 class="card-header info-color white-text text-center py-4">
+        <strong>Catseye 2</strong>
+    </h5>
+    <div class="card-body px-lg-5">
+        <form class="text-center" style="color: #757575;" action="#!">
+            <p>Join our product. We write rarely, but only the best content.</p>
+            <p>
+                <a href="/keycloak/products2" >Products 2</a>
+            </p>
+            <p>
+                <a href="http://localhost:7777/Emp/getEmployeeDetails" >Calling Another Service Cross Domain</a>
+            </p>
+             <button class="btn btn-success" onclick="getAjaxCall();">GetUsers</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
