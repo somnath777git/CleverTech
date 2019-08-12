@@ -1,0 +1,128 @@
+<html>
+    <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+	<script src="keycloak-authz.js" type="text/javascript"></script>
+	<script>
+	$( document ).ready(function() {
+		setInterval(function() { 
+		accessTokenUpdate();
+		}, 
+		240000);
+	});
+	</script>
+	
+	
+      <script src="keycloak.js" type="text/javascript"></script>
+		     <script>
+			 
+	        var accessToken='';
+			 var refreshToken='';
+			 var idToken='';
+			 var idTokenParsed='';
+			 var userName='';
+			 var branchName='';
+			 
+                var keycloak = Keycloak({
+                    url: 'http://localhost:9019/auth',
+                    realm: 'somnath',
+                    clientId: 'public-frondend-client'
+                });
+			
+	
+				
+             keycloak.init({ onLoad: 'login-required' }).success(() => {
+			 accessToken=keycloak.token;
+			 refreshToken=keycloak.refreshToken;
+			 idToken=keycloak.idToken;
+			 idTokenParsed=keycloak.idTokenParsed;
+			 userName=idTokenParsed.preferred_username;				
+             })
+             .error(() => {
+             alert("inside error");
+             reject();
+              });
+	
+		
+			function accessTokenUpdate()
+			{
+			keycloak.updateToken(5).
+			success(() => {
+			})
+			}
+	
+			function getDataFromPublicClient()
+			{
+			$.ajax({
+				  type: "GET",
+				  beforeSend: function(request) {
+				  //accessTokenUpdate();
+					request.setRequestHeader("Authorization", 'Bearer '+keycloak.token);
+				  },
+				  url: "http://localhost:8888/keycloak/getAjaxCallData",
+				  processData: false,
+				  success: function(response) {
+					alert("Response>>>"+response);
+					console.log("Response>>>"+response);
+				  },
+				  error: function(response) {
+					alert("Response>>>"+response);
+				  }
+				});
+			
+			}
+			
+			function getDataFromConfidentialClient()
+			{
+			$.ajax({
+				  type: "GET",
+				  beforeSend: function(request) {
+					request.setRequestHeader("Authorization", 'Bearer '+accessToken);
+				  },
+				  url: "http://localhost:7777/keycloak/getAjaxCallData",
+				  processData: false,
+				  success: function(response) {
+					alert("Response>>>"+response);
+					console.log("Response>>>"+response);
+				  }
+				});
+			
+			}
+				
+				function login()
+				{
+				alert("inside login");
+				 keycloak.init().success(
+				 function(authenticated) {
+				 	alert(authenticated ? 'authenticated' : 'not authenticated');
+				}).error(function() {
+					alert('failed to initialize');
+				});
+				}
+				
+				
+				function getUserName()
+				{
+				alert("userName>>>>>>>>>"+userName);
+				}
+				
+				function logout()
+				{
+				keycloak.logout();
+				}
+				
+				
+				
+				
+			
+             </script>
+<br><br>
+<button onclick="login()" id="loginButton">Login</button><br><br><br>
+<button onclick="getDataFromPublicClient();" id="publicButton">Data Service From Public  Client</button><br><br><br>
+<button onclick="getDataFromConfidentialClient();" id="privateButton">Data Service From Confidential Client</button><br><br><br>
+<button onclick="getUserName();" id="userbutton">Get UserName</button><br><br><br>
+<button onclick="logout();" id="logoutButton">Logout</button>
+
+    </body>
+</html>
